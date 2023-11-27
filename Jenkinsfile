@@ -26,6 +26,8 @@ pipeline {
         }
         stage ('remove and create service') {
             steps {
+                sh'/usr/bin/docker container rm test --force'
+                sh'/usr/bin/docker container run -itd -p 9876:80 --name test jakejake23/exam '
                 sh '/usr/bin/docker service rm myservice'
                 sh '/usr/bin/docker service create --name myservice -p 9876:80 jakejake23/exam'
                 sh '/usr/bin/docker service scale myservice=5'
