@@ -24,9 +24,11 @@ pipeline {
                 sh '/usr/bin/docker push jakejake23/exam'
             }
         }
-        stage ('restart service') {
+        stage ('remove and create service') {
             steps {
-                sh '/usr/bin/docker service update --image jakejake23/exam --force myservice'
+                sh '/usr/bin/docker service rm myservice'
+                sh '/usr/bin/docker service create --name myservice -p 9876:80 jakejake23/exam'
+                sh 'usr/bin/docker service scale myservice=5'
             }
         }
     }
